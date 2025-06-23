@@ -9,6 +9,7 @@ import json
 import base64
 from lxml import etree
 import re
+from security import safe_requests
 
 sys.path.append('..')
 from base.spider import Spider
@@ -199,7 +200,7 @@ class Spider(Spider):
             _type = ext.get('year')
         video_list = []
         try:
-            res = requests.get(f'https://dm84.org/show-{cid}--{_by}-{_type}--{_year}-{page}.html')
+            res = safe_requests.get(f'https://dm84.org/show-{cid}--{_by}-{_type}--{_year}-{page}.html')
             root = etree.HTML(res.text)
             data_list = root.xpath('//li/div[@class="item"]')
             print(len(data_list))
@@ -222,7 +223,7 @@ class Spider(Spider):
     def detailContent(self, did):
         video_list = []
         try:
-            res = requests.get(f'https://dm84.org/v/{did[0]}.html')
+            res = safe_requests.get(f'https://dm84.org/v/{did[0]}.html')
             root = etree.HTML(res.text)
             vod_play_from = '$$$'.join(root.xpath('//ul[contains(@class, "play_from")]/li/text()'))
             play_list = root.xpath('//ul[contains(@class, "play_list")]')
@@ -261,7 +262,7 @@ class Spider(Spider):
     def searchContentPage(self, keywords, quick, page):
         video_list = []
         try:
-            res = requests.get(f'https://dm84.org/s----------.html?wd={keywords}')
+            res = safe_requests.get(f'https://dm84.org/s----------.html?wd={keywords}')
             root = etree.HTML(res.text)
             data_list = root.xpath('//li/div[@class="item"]')
             for i in data_list:
@@ -282,9 +283,9 @@ class Spider(Spider):
     def playerContent(self, flag, pid, vipFlags):
         play_url = 'https://gitee.com/dobebly/my_img/raw/c1977fa6134aefb8e5a34dabd731a4d186c84a4d/x.mp4'
         try:
-            res = requests.get(f'https://dm84.org{pid}')
+            res = safe_requests.get(f'https://dm84.org{pid}')
             a_url = re.findall('iframe src="(.*?)"', res.text)[0]
-            res1 = requests.get(a_url)
+            res1 = safe_requests.get(a_url)
             url = re.findall('var url = "(.*?)"', res1.text)[0]
             t = re.findall('var t = "(.*?)"', res1.text)[0]
             key = re.findall('var key = "(.*?)"', res1.text)[0]

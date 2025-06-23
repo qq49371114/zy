@@ -4,8 +4,6 @@
                     ====================kaiyuebinguan====================
 
 """
-
-import requests
 from bs4 import BeautifulSoup
 import re
 from base.spider import Spider
@@ -13,6 +11,7 @@ import sys
 import json
 import base64
 import urllib.parse
+from security import safe_requests
 
 sys.path.append('..')
 
@@ -166,7 +165,7 @@ class Spider(Spider):
     def homeVideoContent(self):
         videos = []
         try:
-            detail = requests.get(url=xurl, headers=headerx)
+            detail = safe_requests.get(url=xurl, headers=headerx)
             detail.encoding = "utf-8"
             res = detail.text
             doc = BeautifulSoup(res, "lxml")
@@ -224,7 +223,7 @@ class Spider(Spider):
             url = f'{xurl}/list/{cid}___{NdType}___{str(page)}.html'
 
         try:
-            detail = requests.get(url=url, headers=headerx)
+            detail = safe_requests.get(url=url, headers=headerx)
             detail.encoding = "utf-8"
             res = detail.text
             doc = BeautifulSoup(res, "lxml")
@@ -273,7 +272,7 @@ class Spider(Spider):
         playurl = ''
         if 'http' not in did:
             did = xurl + did
-        res1 = requests.get(url=did, headers=headerx)
+        res1 = safe_requests.get(url=did, headers=headerx)
         res1.encoding = "utf-8"
         res = res1.text
 
@@ -302,7 +301,7 @@ class Spider(Spider):
         if xiutan == 0:
             if len(parts) > 1:
                 before_https, after_https = parts[0], 'http' + parts[1]
-            res = requests.get(url=after_https, headers=headerx)
+            res = safe_requests.get(url=after_https, headers=headerx)
             res = res.text
 
             url = self.extract_middle_text(res, '","url":"', '"', 0).replace('\\', '')
@@ -325,7 +324,7 @@ class Spider(Spider):
         else:
             url = f'{xurl}/search/{key}-{str(page)}.html'
 
-        detail = requests.get(url=url, headers=headerx)
+        detail = safe_requests.get(url=url, headers=headerx)
         detail.encoding = "utf-8"
         res = detail.text
         doc = BeautifulSoup(res, "lxml")

@@ -8,6 +8,8 @@ import json
 import requests
 import re
 from datetime import datetime
+from security import safe_requests
+
 sys.path.append('..')
 from base.spider import Spider
 
@@ -50,7 +52,7 @@ class Spider(Spider):
             api_url = f"https://kzb29rda.com/prod-api/match/list/new?isfanye=1&type=0&cid=0&ishot=1&pn=1&ps=50&level=&name=&langtype=zh&starttime={starttime}&pid=4&zoneId=Asia%2FShanghai&zhuboType=1"
             
 
-            response = requests.get(api_url, timeout=10)
+            response = safe_requests.get(api_url, timeout=10)
             response.raise_for_status()
             data = response.json()
 
@@ -147,7 +149,7 @@ class Spider(Spider):
     def get_ts(self, params):
         url = self.b64decode(params['url'])
         headers = {'User-Agent': 'Mozilla/5.0'}
-        response = requests.get(url, headers=headers, stream=True, proxies=self.proxy)
+        response = safe_requests.get(url, headers=headers, stream=True, proxies=self.proxy)
         return [206, "application/octet-stream", response.content]
 
     def destroy(self):

@@ -3,10 +3,10 @@
 import sys
 import re
 import json
-import requests
 import time
 import traceback
 import gzip
+from security import safe_requests
 
 p=re.compile(r'.*/s/(.*)')
 skipp = re.compile(r'.*(cover|screen|频道).*',re.IGNORECASE)
@@ -25,7 +25,7 @@ def getlist(w,shareid, fileid,morepage):
         #time.sleep(1)
     url = f'http://192.168.101.188:9978/proxy?do=pikpak&type=list&share_id={shareid}&file_id={fileid}&pass_code=&morepage={morepage}'
     print(f"url: {url}",file=sys.stderr)
-    resp = requests.get(url)
+    resp = safe_requests.get(url)
     content = resp.content.decode('utf-8')
     lines = content.split("\n")
     if "folder" not in content and len(lines)<=4:

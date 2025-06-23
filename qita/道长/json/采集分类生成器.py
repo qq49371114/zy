@@ -17,6 +17,7 @@ import time
 import requests
 
 import warnings
+from security import safe_requests
 
 # 关闭警告
 warnings.filterwarnings("ignore")
@@ -58,7 +59,7 @@ def get_classes(rec):
         # _api = urljoin(rec['url'], '/api.php/provide/vod/at/json')
         print(_api)
         try:
-            r = requests.get(_api, headers=headers, timeout=timeout, verify=False)
+            r = safe_requests.get(_api, headers=headers, timeout=timeout, verify=False)
             ret = r.json()
             if rec.get('name') == '乐视资源':
                 print('=======乐视=========')
@@ -108,7 +109,7 @@ def get_convert_classes(rec):
 def check_class(api, type_name, type_id, limit_count=6):
     _url = f'{api}?ac=detail&pg=1&t={type_id}'
     try:
-        r = requests.get(_url, headers=headers, timeout=timeout, verify=False)
+        r = safe_requests.get(_url, headers=headers, timeout=timeout, verify=False)
         ret = r.json()
         if not ret.get("list") or len(ret["list"]) < limit_count:
             print(f'获取资源 {api} 分类【{type_name}】数量为:{len(ret["list"])} 小于{limit_count}视为排除')
@@ -120,7 +121,7 @@ def check_class(api, type_name, type_id, limit_count=6):
 
 def check_active(api):
     try:
-        r = requests.get(api, headers=headers, timeout=timeout, verify=False)
+        r = safe_requests.get(api, headers=headers, timeout=timeout, verify=False)
         ret = r.json()
         if not ret.get("class"):
             return False

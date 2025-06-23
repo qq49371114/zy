@@ -20,6 +20,7 @@ import time
 import sys
 import re
 import os
+from security import safe_requests
 
 sys.path.append('..')
 
@@ -191,7 +192,7 @@ class Spider(Spider):
         videos = []
 
         try:
-            detail = requests.get(url=xurl, headers=headerx)
+            detail = safe_requests.get(url=xurl, headers=headerx)
             detail.encoding = "utf-8"
             res = detail.text
 
@@ -251,7 +252,7 @@ class Spider(Spider):
             url = f'{xurl}/vod/list/{str(page)}/{cid}/0/{NdType}/0/0/0/0'
 
         try:
-            detail = requests.get(url=url, headers=headerx)
+            detail = safe_requests.get(url=url, headers=headerx)
             detail.encoding = "utf-8"
             res = detail.text
             doc = BeautifulSoup(res, "lxml")
@@ -302,7 +303,7 @@ class Spider(Spider):
         if 'http' not in did:
             did = xurl + did
 
-        res1 = requests.get(url=did, headers=headerx)
+        res1 = safe_requests.get(url=did, headers=headerx)
         res1.encoding = "utf-8"
         res = res1.text
 
@@ -346,7 +347,7 @@ class Spider(Spider):
             if '239755956819.mp4' in after_https:
                 url = after_https
             else:
-                res = requests.get(url=after_https, headers=headerx)
+                res = safe_requests.get(url=after_https, headers=headerx)
                 res = res.text
 
                 url = self.extract_middle_text(res, '?url=', "'", 0).replace('\\', '')

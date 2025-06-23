@@ -7,6 +7,8 @@ import time
 import json
 import requests
 import re  # 新增导入re模块
+from security import safe_requests
+
 sys.path.append('..')
 from base.spider import Spider
 
@@ -138,7 +140,7 @@ class Spider(Spider):
     def get_ts(self, params):
         url = self.b64decode(params['url'])
         headers = {'User-Agent': 'Mozilla/5.0'}
-        response = requests.get(url, headers=headers, stream=True, proxies=self.proxy)
+        response = safe_requests.get(url, headers=headers, stream=True, proxies=self.proxy)
         return [206, "application/octet-stream", response.content]
 
     def destroy(self):

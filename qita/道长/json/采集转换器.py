@@ -5,9 +5,9 @@
 # Date  : 2024/7/4
 
 import json
-import requests
 from urllib.parse import urlsplit
 from collections import OrderedDict
+from security import safe_requests
 
 
 def get_host(url):
@@ -55,7 +55,7 @@ def delete_same(data, key='url'):
 
 
 def main(zy_url="https://cdn.jsdelivr.net/gh/waifu-project/v1@latest/zy.json"):
-    r = requests.get(zy_url)
+    r = safe_requests.get(zy_url)
     ret = r.json()
     sites = ret['sites']['data']
     sites = [site for site in sites if site.get('type') and site['type'] == 1]

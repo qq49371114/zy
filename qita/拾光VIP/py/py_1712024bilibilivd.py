@@ -5,8 +5,7 @@ import json
 import time
 from datetime import datetime
 from urllib.parse import quote, unquote
-
-import requests
+from security import safe_requests
 
 sys.path.append('..')
 from base.spider import Spider
@@ -530,7 +529,7 @@ class Spider(Spider):  # 元类 默认的元类 type
 			if '127.0.0.1:7777' in url:
 				header["Location"] = url
 				return [302, "video/MP2T", None, header]
-			r = requests.get(url, headers=header, stream=True)
+			r = safe_requests.get(url, headers=header, stream=True)
 			return [206, "application/octet-stream", r.content]
 
 	def proxyMedia(self, params, forceRefresh=False):
@@ -553,7 +552,7 @@ class Spider(Spider):  # 元类 默认的元类 type
 		header = self.header.copy()
 		if 'range' in params:
 			header['Range'] = params['range']
-		r = requests.get(url, headers=header, stream=True)
+		r = safe_requests.get(url, headers=header, stream=True)
 		return [206, "application/octet-stream", r.content]
 
 	def getDash(self, params, forceRefresh=False):

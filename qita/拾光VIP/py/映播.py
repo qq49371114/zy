@@ -20,6 +20,7 @@ import time
 import sys
 import re
 import os
+from security import safe_requests
 
 sys.path.append('..')
 
@@ -175,7 +176,7 @@ class Spider(Spider):
 
         try:
 
-            detail = requests.get(url=xurl, headers=headerx)
+            detail = safe_requests.get(url=xurl, headers=headerx)
             detail.encoding = "utf-8"
             res = detail.text
             res = self.extract_middle_text(res, '<span>热门电影</span>', '<span>推荐明星</span>', 0)
@@ -236,7 +237,7 @@ class Spider(Spider):
             url = f'{xurl}/vod/list/{str(page)}/{cid}/0/{NdType}/0/0/0/0'
 
         try:
-            detail = requests.get(url=url, headers=headerx)
+            detail = safe_requests.get(url=url, headers=headerx)
             detail.encoding = "utf-8"
             res = detail.text
             doc = BeautifulSoup(res, "lxml")
@@ -285,7 +286,7 @@ class Spider(Spider):
         if 'http' not in did:
             did = xurl + did
 
-        res1 = requests.get(url=did, headers=headerx)
+        res1 = safe_requests.get(url=did, headers=headerx)
         res1.encoding = "utf-8"
         res = res1.text
 
@@ -330,7 +331,7 @@ class Spider(Spider):
             if '/tp/jd.m3u8' in after_https:
                 url = after_https
             else:
-                res = requests.get(url=after_https, headers=headerx)
+                res = safe_requests.get(url=after_https, headers=headerx)
                 res = res.text
 
                 url = self.extract_middle_text(res, 'u0026url=', "'", 0).replace('\\', '')
@@ -354,7 +355,7 @@ class Spider(Spider):
         else:
             url = f'{xurl}/public/auto/search1.html?keyword={key}&page={str(page)}'
 
-        detail = requests.get(url=url, headers=headerx)
+        detail = safe_requests.get(url=url, headers=headerx)
         detail.encoding = "utf-8"
         res = detail.text
         doc = BeautifulSoup(res, "lxml")

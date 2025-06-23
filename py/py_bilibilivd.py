@@ -6,8 +6,7 @@ import json
 import time
 from datetime import datetime
 from urllib.parse import quote, unquote
-
-import requests
+from security import safe_requests
 
 sys.path.append('..')
 from base.spider import Spider
@@ -92,7 +91,7 @@ class Spider(Spider):  # 元类 默认的元类 type
 			pass
 		cookie, imgKey, subKey = self.getCookie(cookie)
 		url = 'https://api.bilibili.com/x/web-interface/index/top/feed/rcmd?y_num=1&fresh_type=3&feed_version=SEO_VIDEO&fresh_idx_1h=1&fetch_row=1&fresh_idx=1&brush=0&homepage_ver=1&ps=20'
-		r = requests.get(url, cookies=cookie, headers=self.header, timeout=5)
+		r = safe_requests.get(url, cookies=cookie, headers=self.header, timeout=5)
 		data = json.loads(self.cleanText(r.text))
 		try:
 			result['list'] = []
@@ -534,7 +533,7 @@ class Spider(Spider):  # 元类 默认的元类 type
 			if '127.0.0.1:7777' in url:
 				header["Location"] = url
 				return [302, "video/MP2T", None, header]
-			r = requests.get(url, headers=header, stream=True)
+			r = safe_requests.get(url, headers=header, stream=True)
 			return [206, "application/octet-stream", r.content]
 
 	def proxyMedia(self, params, forceRefresh=False):
@@ -557,7 +556,7 @@ class Spider(Spider):  # 元类 默认的元类 type
 		header = self.header.copy()
 		if 'range' in params:
 			header['Range'] = params['range']
-		r = requests.get(url, headers=header, stream=True)
+		r = safe_requests.get(url, headers=header, stream=True)
 		return [206, "application/octet-stream", r.content]
 
 	def getDash(self, params, forceRefresh=False):
@@ -677,7 +676,7 @@ class Spider(Spider):  # 元类 默认的元类 type
 		header = {
 			"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.54 Safari/537.36"
 		}
-		r = requests.get("http://api.bilibili.com/x/web-interface/nav", cookies=cookies, headers=header, timeout=10)
+		r = safe_requests.get("http://api.bilibili.com/x/web-interface/nav", cookies=cookies, headers=header, timeout=10)
 		data = json.loads(r.text)
 		code = data["code"]
 		if code == 0:
