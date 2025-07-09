@@ -166,7 +166,7 @@ class Spider(Spider):
     def homeVideoContent(self):
         videos = []
         try:
-            detail = requests.get(url=xurl, headers=headerx)
+            detail = requests.get(url=xurl, headers=headerx, timeout=60)
             detail.encoding = "utf-8"
             res = detail.text
             res = self.extract_middle_text(res, '<div class="module">', '专题片单', 0)
@@ -225,7 +225,7 @@ class Spider(Spider):
             url = f'{xurl}{cid}--------{str(page)}---{NdType}.html'
 
         try:
-            detail = requests.get(url=url, headers=headerx)
+            detail = requests.get(url=url, headers=headerx, timeout=60)
             detail.encoding = "utf-8"
             res = detail.text
             res = self.extract_middle_text(res, '按评分排序', '<div id="page">', 0)
@@ -273,7 +273,7 @@ class Spider(Spider):
         playurl = ''
         if 'http' not in did:
             did = xurl + did
-        res1 = requests.get(url=did, headers=headerx)
+        res1 = requests.get(url=did, headers=headerx, timeout=60)
         res1.encoding = "utf-8"
         res = res1.text
 
@@ -302,7 +302,7 @@ class Spider(Spider):
         if xiutan == 0:
             if len(parts) > 1:
                 before_https, after_https = parts[0], 'http' + parts[1]
-            res = requests.get(url=after_https, headers=headerx)
+            res = requests.get(url=after_https, headers=headerx, timeout=60)
 
             url = self.extract_middle_text(res.text, '},"url":"', '"', 0).replace('\\', '')
 
@@ -325,7 +325,7 @@ class Spider(Spider):
         else:
             url = f'{xurl}/vod/search/{key}----------{str(page)}---.html'
 
-        detail = requests.get(url=url, headers=headerx)
+        detail = requests.get(url=url, headers=headerx, timeout=60)
         detail.encoding = "utf-8"
         res = detail.text
         doc = BeautifulSoup(res, "lxml")

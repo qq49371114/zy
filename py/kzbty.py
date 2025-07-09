@@ -147,7 +147,7 @@ class Spider(Spider):
     def get_ts(self, params):
         url = self.b64decode(params['url'])
         headers = {'User-Agent': 'Mozilla/5.0'}
-        response = requests.get(url, headers=headers, stream=True, proxies=self.proxy)
+        response = requests.get(url, headers=headers, stream=True, proxies=self.proxy, timeout=60)
         return [206, "application/octet-stream", response.content]
 
     def destroy(self):

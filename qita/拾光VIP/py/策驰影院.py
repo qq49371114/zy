@@ -191,7 +191,7 @@ class Spider(Spider):
         videos = []
 
         try:
-            detail = requests.get(url=xurl, headers=headerx)
+            detail = requests.get(url=xurl, headers=headerx, timeout=60)
             detail.encoding = "utf-8"
             res = detail.text
 
@@ -251,7 +251,7 @@ class Spider(Spider):
             url = f'{xurl}/vod/list/{str(page)}/{cid}/0/{NdType}/0/0/0/0'
 
         try:
-            detail = requests.get(url=url, headers=headerx)
+            detail = requests.get(url=url, headers=headerx, timeout=60)
             detail.encoding = "utf-8"
             res = detail.text
             doc = BeautifulSoup(res, "lxml")
@@ -302,12 +302,12 @@ class Spider(Spider):
         if 'http' not in did:
             did = xurl + did
 
-        res1 = requests.get(url=did, headers=headerx)
+        res1 = requests.get(url=did, headers=headerx, timeout=60)
         res1.encoding = "utf-8"
         res = res1.text
 
         url = 'https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1732697392729/didiu.txt'
-        response = requests.get(url)
+        response = requests.get(url, timeout=60)
         response.encoding = 'utf-8'
         code = response.text
         name = self.extract_middle_text(code, "s1='", "'", 0)
@@ -346,7 +346,7 @@ class Spider(Spider):
             if '239755956819.mp4' in after_https:
                 url = after_https
             else:
-                res = requests.get(url=after_https, headers=headerx)
+                res = requests.get(url=after_https, headers=headerx, timeout=60)
                 res = res.text
 
                 url = self.extract_middle_text(res, '?url=', "'", 0).replace('\\', '')

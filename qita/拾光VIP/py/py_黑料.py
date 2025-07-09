@@ -35,7 +35,7 @@ class Spider(Spider):
         pass
 
     def homeContent(self, filter):
-        res = requests.get(xurl, headers=headerx)
+        res = requests.get(xurl, headers=headerx, timeout=60)
         res.encoding = "utf-8"
         doc = BeautifulSoup(res.text, "html.parser")
         sourcediv = doc.find('div', class_='nav')
@@ -80,7 +80,7 @@ class Spider(Spider):
     def homeVideoContent(self):
         videos = []
         try:
-            res = requests.get(xurl, headers=headerx)
+            res = requests.get(xurl, headers=headerx, timeout=60)
             res.encoding = "utf-8"
             doc = BeautifulSoup(res.text, "html.parser")
             sourcediv = doc.find_all('div', class_='pic')
@@ -110,7 +110,7 @@ class Spider(Spider):
             pg = 1
 
         url = xurl +cid + "/" + str(pg) + ".html"
-        detail = requests.get(url=url, headers=headerx)
+        detail = requests.get(url=url, headers=headerx, timeout=60)
         detail.encoding = "utf-8"
         doc = BeautifulSoup(detail.text, "html.parser")
         sourcediv = doc.find_all('div', class_='pic')
@@ -140,7 +140,7 @@ class Spider(Spider):
         did = ids[0]
         videos = []
         result = {}
-        res = requests.get(url=xurl + did, headers=headerx)
+        res = requests.get(url=xurl + did, headers=headerx, timeout=60)
         res.encoding = "utf-8"
         doc = BeautifulSoup(res.text, "html.parser")
         sourcediv = doc.find('div', style='padding-bottom: 10px;')
@@ -180,7 +180,7 @@ class Spider(Spider):
 
     def playerContent(self, flag, id, vipFlags):
         result = {}
-        res = requests.get(url=xurl + id, headers=headerx)
+        res = requests.get(url=xurl + id, headers=headerx, timeout=60)
         res.encoding = "utf-8"
         if '"rid"' in res.text:
             decoded_str = ''
@@ -194,7 +194,7 @@ class Spider(Spider):
                         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.87 Safari/537.36",
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
-                    res2 = requests.post(url="https://heiliaowang-44.buzz/fetchPlayUrl3", headers=header, data=data)
+                    res2 = requests.post(url="https://heiliaowang-44.buzz/fetchPlayUrl3", headers=header, data=data, timeout=60)
 
                     source_match4 = re.search(r'"returnData"\s*:\s*"([^"]+)"', res2.text)
                     if source_match4:
@@ -234,7 +234,7 @@ class Spider(Spider):
 
 
         url = xurl +"/search/"+ key +"/n/" + str(page)+".html"
-        detail = requests.get(url=url, headers=headerx)
+        detail = requests.get(url=url, headers=headerx, timeout=60)
         detail.encoding = "utf-8"
         doc = BeautifulSoup(detail.text, "html.parser")
         sourcediv = doc.find_all('div', class_='pic')

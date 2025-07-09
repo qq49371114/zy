@@ -54,7 +54,7 @@ class Spider(Spider):
         
         try:
             base_url = "https://kzb29rda.com/prod-api/iptv/getIptvList?liveType=0&deviceType=1"
-            response = requests.get(base_url)
+            response = requests.get(base_url, timeout=60)
             response.raise_for_status()  # 自动抛出HTTP错误（如404/500）
 
             data = response.json()
@@ -138,7 +138,7 @@ class Spider(Spider):
     def get_ts(self, params):
         url = self.b64decode(params['url'])
         headers = {'User-Agent': 'Mozilla/5.0'}
-        response = requests.get(url, headers=headers, stream=True, proxies=self.proxy)
+        response = requests.get(url, headers=headers, stream=True, proxies=self.proxy, timeout=60)
         return [206, "application/octet-stream", response.content]
 
     def destroy(self):

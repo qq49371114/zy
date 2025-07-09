@@ -19,7 +19,7 @@ class Spider(Spider):
     def init(self, extend=""):
         tid = 'douyin'
         headers = self.gethr(0, tid)
-        response = requests.head(self.hosts[tid], headers=headers)
+        response = requests.head(self.hosts[tid], headers=headers, timeout=60)
         ttwid = response.cookies.get('ttwid')
         headers.update({
             'authority': self.hosts[tid].split('//')[-1],

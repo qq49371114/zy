@@ -65,7 +65,7 @@ class Spider(Spider):
 
     def homeVideoContent(self):
         url = f'{self.host}/v1/ys_video_sites/hot?t=1'
-        data = requests.get(url, headers=self.headers).json()
+        data = requests.get(url, headers=self.headers, timeout=60).json()
         videos = self.list(data['data']['data'])
         result = {'list': videos}
         return result
@@ -84,7 +84,7 @@ class Spider(Spider):
         videos = []
         result = {}
         try:
-            data = requests.get(self.host + path, headers=self.headers).json()
+            data = requests.get(self.host + path, headers=self.headers, timeout=60).json()
             if rank:
                 for video in data['data']:
                     videos.extend(data['data'][video])
@@ -103,7 +103,7 @@ class Spider(Spider):
     def detailContent(self, ids):
         tid = ids[0]
         url = f'{self.host}/v1/ys_video_series/by_vid/{tid}'
-        data = requests.get(url, headers=self.headers).json()
+        data = requests.get(url, headers=self.headers, timeout=60).json()
         data1 = data['data']['ys_video_site']
         urls = []
         for it in data['data']['data']:
@@ -127,7 +127,7 @@ class Spider(Spider):
 
     def searchContent(self, key, quick, pg=1):
         url = f'{self.host}/v1/ys_video_sites/search?s={key}&o=0&ps=200&pn={pg}'
-        data = requests.get(url, headers=self.headers).json()
+        data = requests.get(url, headers=self.headers, timeout=60).json()
         videos = data['data']['video_sites']
         if data['data']['first_video_series'] is not None:
             videos = [data['data']['first_video_series']] + videos

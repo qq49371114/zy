@@ -168,7 +168,7 @@ class Spider(Spider):
     def homeVideoContent(self):
         video_list = []
         try:
-            res = requests.get('https://dm84.org')
+            res = requests.get('https://dm84.org', timeout=60)
             root = etree.HTML(res.text)
             data_list = root.xpath('//li/div[@class="item"]')
             print(len(data_list))
@@ -199,7 +199,7 @@ class Spider(Spider):
             _type = ext.get('year')
         video_list = []
         try:
-            res = requests.get(f'https://dm84.org/show-{cid}--{_by}-{_type}--{_year}-{page}.html')
+            res = requests.get(f'https://dm84.org/show-{cid}--{_by}-{_type}--{_year}-{page}.html', timeout=60)
             root = etree.HTML(res.text)
             data_list = root.xpath('//li/div[@class="item"]')
             print(len(data_list))
@@ -222,7 +222,7 @@ class Spider(Spider):
     def detailContent(self, did):
         video_list = []
         try:
-            res = requests.get(f'https://dm84.org/v/{did[0]}.html')
+            res = requests.get(f'https://dm84.org/v/{did[0]}.html', timeout=60)
             root = etree.HTML(res.text)
             vod_play_from = '$$$'.join(root.xpath('//ul[contains(@class, "play_from")]/li/text()'))
             play_list = root.xpath('//ul[contains(@class, "play_list")]')
@@ -261,7 +261,7 @@ class Spider(Spider):
     def searchContentPage(self, keywords, quick, page):
         video_list = []
         try:
-            res = requests.get(f'https://dm84.org/s----------.html?wd={keywords}')
+            res = requests.get(f'https://dm84.org/s----------.html?wd={keywords}', timeout=60)
             root = etree.HTML(res.text)
             data_list = root.xpath('//li/div[@class="item"]')
             for i in data_list:
@@ -282,9 +282,9 @@ class Spider(Spider):
     def playerContent(self, flag, pid, vipFlags):
         play_url = 'https://gitee.com/dobebly/my_img/raw/c1977fa6134aefb8e5a34dabd731a4d186c84a4d/x.mp4'
         try:
-            res = requests.get(f'https://dm84.org{pid}')
+            res = requests.get(f'https://dm84.org{pid}', timeout=60)
             a_url = re.findall('iframe src="(.*?)"', res.text)[0]
-            res1 = requests.get(a_url)
+            res1 = requests.get(a_url, timeout=60)
             url = re.findall('var url = "(.*?)"', res1.text)[0]
             t = re.findall('var t = "(.*?)"', res1.text)[0]
             key = re.findall('var key = "(.*?)"', res1.text)[0]
@@ -305,7 +305,7 @@ class Spider(Spider):
                 'user-agent': 'okhttp/3.12.0',
                 'x-requested-with': 'XMLHttpRequest',
             }
-            res2 = requests.post('https://hhjx.hhplayer.com/api.php', data=data, headers=headers)
+            res2 = requests.post('https://hhjx.hhplayer.com/api.php', data=data, headers=headers, timeout=60)
             if res2.json()['code'] == 200:
                 play_url = res2.json()['url']
 

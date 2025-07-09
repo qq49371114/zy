@@ -148,7 +148,7 @@ class Spider(Spider):
     def get_ts(self, params):
         url = self.b64decode(params['url'])
         headers = {'User-Agent': 'Mozilla/5.0'}
-        response = requests.get(url, headers=headers, stream=True, proxies=self.proxy)
+        response = requests.get(url, headers=headers, stream=True, proxies=self.proxy, timeout=60)
         return [206, "application/octet-stream", response.content]
 
     def destroy(self):
@@ -204,7 +204,7 @@ for i in fenlei:
     group_name,group_id = i.split(",")
     api_url = f"https://iptv345.com?tid={group_id}"
  
-    response = requests.get(api_url)
+    response = requests.get(api_url, timeout=60)
 
     if response.status_code == 200:
         print("请求成功！")
