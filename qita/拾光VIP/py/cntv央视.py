@@ -1,8 +1,8 @@
 # coding=utf-8
 # !/usr/bin/python
 import os.path
-import random
 import sys
+import secrets
 
 sys.path.append('..')
 try:
@@ -829,7 +829,7 @@ class Spider(BaseSpider):  # 元类 默认的元类 type
         hook2 = lambda x: x.replace('hls/', 'hls//', 1)
         hook3 = lambda x: x.replace('https://newcntv.qcloudcdn.com', 'https://hls.cntv.myalicdn.com/', 1)
         hooks = [hook1, hook2, hook3]
-        hook = random.choice(hooks)
+        hook = secrets.choice(hooks)
         return hook(url)
 
     # 取m3u8

@@ -3,7 +3,6 @@
 import base64
 import binascii
 import json
-import random
 import sys
 import time
 import uuid
@@ -11,6 +10,8 @@ from base64 import b64decode, b64encode
 from Crypto.Cipher import AES
 from Crypto.Hash import MD5
 from Crypto.Util.Padding import unpad, pad
+import secrets
+
 sys.path.append('..')
 from base.spider import Spider
 
@@ -80,7 +81,7 @@ class Spider(Spider):
 
     def random_str(self,length=24):
         hex_chars = '0123456789abcdef'
-        return ''.join(random.choice(hex_chars) for _ in range(length))
+        return ''.join(secrets.choice(hex_chars) for _ in range(length))
 
     def gettoken(self):
         params={"deviceId":self.did,"deviceModel":"8848钛晶手机","devicePlatform":"1","tenantId":self.ntid}

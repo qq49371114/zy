@@ -3,11 +3,12 @@
 # by嗷呜(finally)
 import sys
 import os
+import secrets
+
 sys.path.append("..")
 import re
 import hashlib
 import hmac
-import random
 import string
 from Crypto.Util.Padding import unpad
 from concurrent.futures import ThreadPoolExecutor
@@ -201,7 +202,7 @@ class Spider(Spider):
 
     def device_id(self):
         characters = string.ascii_lowercase + string.digits
-        random_string = ''.join(random.choices(characters, k=32))
+        random_string = ''.join(secrets.SystemRandom().choices(characters, k=32))
         return random_string
 
     def gethost(self):

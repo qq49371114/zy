@@ -2,13 +2,14 @@
 # !/usr/bin/python
 # by嗷呜
 import json
-import random
 import sys
 import time
 from base64 import b64decode
 from Crypto.Cipher import AES
 from Crypto.Hash import MD5
 from Crypto.Util.Padding import unpad
+import secrets
+
 sys.path.append('..')
 from base.spider import Spider
 
@@ -34,7 +35,7 @@ class Spider(Spider):
 
     def random_str(self,length=16):
         hex_chars = '0123456789abcdef'
-        return ''.join(random.choice(hex_chars) for _ in range(length))
+        return ''.join(secrets.choice(hex_chars) for _ in range(length))
 
     def md5(self, text: str) -> str:
         h = MD5.new()

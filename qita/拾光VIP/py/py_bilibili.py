@@ -1,3 +1,5 @@
+import secrets
+
 Cv='Referer'
 Cu='application/dash+xml'
 Ct='interaction'
@@ -224,7 +226,7 @@ D='n'
 C='v'
 B=''
 A=str
-import sys,os,json as Bg,threading as x,hashlib,time as X,random as B8
+import sys,os,json as Bg,threading as x,hashlib,time as X
 from base.spider import Spider
 from requests import session as Bh,utils as Bi,head
 from requests.adapters import HTTPAdapter as Cw,Retry
@@ -1073,7 +1075,7 @@ class Spider(Spider):
 	def encrypt_wbi(D,**C):
 		E=AK(X.time());F=X.gmtime(E).tm_hour
 		if not D.wbi_key or F!=D.wbi_key['hour']:D.get_wbiKey(F)
-		C['wts']=E;G='ABCDEFGHIJK';C['dm_img_list']='[]';C['dm_img_str']=B.join(B8.sample(G,2));C['dm_cover_img_str']=B.join(B8.sample(G,2));C['dm_img_inter']='{"ds":[],"wh":[0,0,0],"of":[0,0,0]}';C=d(sorted(C.items()));C={C:B.join(filter(lambda chr:chr not in"!'()*",A(D)))for(C,D)in C.items()};H=Bk(C);I=hashlib.md5((H+D.wbi_key[W]).encode(encoding=Br)).hexdigest();C['w_rid']=I;return[H+'&w_rid='+I,C]
+		C['wts']=E;G='ABCDEFGHIJK';C['dm_img_list']='[]';C['dm_img_str']=B.join(secrets.SystemRandom().sample(G,2));C['dm_cover_img_str']=B.join(secrets.SystemRandom().sample(G,2));C['dm_img_inter']='{"ds":[],"wh":[0,0,0],"of":[0,0,0]}';C=d(sorted(C.items()));C={C:B.join(filter(lambda chr:chr not in"!'()*",A(D)))for(C,D)in C.items()};H=Bk(C);I=hashlib.md5((H+D.wbi_key[W]).encode(encoding=Br)).hexdigest();C['w_rid']=I;return[H+'&w_rid='+I,C]
 	def _get_sth(A,url,_type=e,**C):
 		E=_type;B=url
 		if E==AF and A.session_vip.cookies:D=A.session_vip.get(B,headers=A.header,**C)
@@ -1298,11 +1300,11 @@ class Spider(Spider):
 			if A==Be:A=H
 			K=AK(X.time());I=C.get(Bf)
 			if Aa(C[A])==d or(I-K)%10==0:D.get_fastesUrl(C[A],f"{F}_{G}",A);I=C.get(Bf)
-			J=B8.choice(C[A])
+			J=secrets.choice(C[A])
 			if not J or A!=AZ and I-K<1800:
 				D._get_playerContent({},F,G,C[o]);C=D.pC_urlDic[f"{F}_{G}"]
 				if A==p:D.get_dash(C[CH],F,G,H)
-				D.get_fastesUrl(C[A],f"{F}_{G}",A);J=B8.choice(C[A])
+				D.get_fastesUrl(C[A],f"{F}_{G}",A);J=secrets.choice(C[A])
 			L=D.header.copy()
 			if N in E:L['Range']=E[N]
 			Q=D.fetch(J,headers=L,stream=Ab);return[206,M,Q.content]
